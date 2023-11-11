@@ -1,7 +1,7 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue';
+<script setup lang="ts">
+import MovieShow from '../src/components/MovieShow.vue';
 </script>
 
 <template>
-  <HelloWorld msg="Vite + Vue" />
+  <movie-show />
 </template>

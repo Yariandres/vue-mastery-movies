@@ -1,0 +1,88 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "Movie 1",
+      "releaseYear": 2000,
+      "genre": "Action",
+      "rating": 0
+    },
+    {
+      "id": 2,
+      "title": "Movie 2",
+      "releaseYear": 2001,
+      "genre": "Comedy",
+      "rating": 0
+    },
+    {
+      "id": 1,
+      "title": "Movie 1",
+      "releaseYear": 2000,
+      "genre": "Action",
+      "rating": 0
+    },
+    {
+      "id": 2,
+      "title": "Movie 2",
+      "releaseYear": 2001,
+      "genre": "Comedy",
+      "rating": 0
+    },
+    {
+      "id": 3,
+      "title": "Movie 3",
+      "releaseYear": 2002,
+      "genre": "Drama",
+      "rating": 0
+    },
+    {
+      "id": 4,
+      "title": "Movie 4",
+      "releaseYear": 2003,
+      "genre": "Action",
+      "rating": 0
+    },
+    {
+      "id": 5,
+      "title": "Movie 5",
+      "releaseYear": 2004,
+      "genre": "Comedy",
+      "rating": 0
+    },
+    {
+      "id": 6,
+      "title": "Movie 6",
+      "releaseYear": 2005,
+      "genre": "Drama",
+      "rating": 0
+    },
+    {
+      "id": 7,
+      "title": "Movie 7",
+      "releaseYear": 2006,
+      "genre": "Action",
+      "rating": 0
+    },
+    {
+      "id": 8,
+      "title": "Movie 8",
+      "releaseYear": 2007,
+      "genre": "Comedy",
+      "rating": 0
+    },
+    {
+      "id": 9,
+      "title": "Movie 9",
+      "releaseYear": 2008,
+      "genre": "Drama",
+      "rating": 0
+    },
+    {
+      "id": 10,
+      "title": "Movie 10",
+      "releaseYear": 2009,
+      "genre": "Action",
+      "rating": 0
+    }
+  ]
+}
