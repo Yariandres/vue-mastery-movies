@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue';
 import baseInput from './BaseInput.vue';
-import type { Movie, Reviews } from './MovieShow.vue';
+import type { Movie, Reviews } from '../types';
 import { useStorage } from '@vueuse/core';
 
 interface Review {
