@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted, reactive } from 'vue';
 import baseInput from './BaseInput.vue';
-import type { Movie } from './MovieShow.vue';
-import dataSource from '../dataSource.json';
+import type { Movie, Reviews } from './MovieShow.vue';
 import { useStorage } from '@vueuse/core';
 
 interface Review {
-  id?: number;
+  id: number;
   username: string;
   comment: string;
-  rating: string;
+  rating: number;
 }
 
 const props = defineProps<{
@@ -19,12 +18,13 @@ const props = defineProps<{
 const checked = ref<boolean>(false);
 const myList = ref(useStorage('myList', [] as Movie[]));
 const isFavourite = ref<boolean>();
+const ratingScore = ref<number>(0);
 
-const newReview = ref<Review>({
-  id: 1, //todo: match it to the user id
+const newReview = reactive<Review>({
+  id: Math.floor(Math.random() * 1000),
   username: '',
   comment: '',
-  rating: '',
+  rating: 0,
 });
 
 const isInMyList = () => {
@@ -48,8 +48,21 @@ const removeFromMyList = () => {
   isInMyList();
 };
 
+const addReview = () => {
+  props.movie.reviews.push(newReview);
+  checked.value = false;
+  averageRating(props.movie.reviews);
+};
+
+const averageRating = (reviews: Reviews[]) => {
+  const ratings = reviews.map((review) => review.rating);
+  const score = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+  ratingScore.value = Number(score.toFixed(1));
+};
+
 onMounted(() => {
   isInMyList();
+  averageRating(props.movie.reviews);
 });
 </script>
 
@@ -74,7 +87,7 @@ onMounted(() => {
           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
         />
       </svg>
-      <!-- remove svg -->
+
       <svg
         v-if="isFavourite"
         xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +114,7 @@ onMounted(() => {
       Genre: <span class="font-light">{{ movie.genre }}</span>
     </p>
     <p class="font-medium">
-      Rating Score: <span class="font-light">{{ movie.rating_score }}</span>
+      Rating Score: <span class="font-light">{{ ratingScore }} / 10</span>
     </p>
     <hr />
     <h2 class="text-xl text-center">Reviews</h2>
@@ -126,31 +139,38 @@ onMounted(() => {
           class="form-checkbox h-5 w-5 text-blue-600"
           v-model="checked"
         />
-        <label class="ml-2 text-gray-700">Add Review</label>
+        <label class="ml-2 text-gray-700">Review & Rate</label>
       </div>
     </div>
 
-    <form v-if="checked" class="flex flex-col gap-2">
+    <form
+      v-if="checked"
+      class="flex flex-col gap-2"
+      @submit.prevent="addReview"
+    >
       <base-input
         v-model="newReview.username"
-        label="Username"
-        placeholder="Enter your username"
-        class="p-2"
+        label="Name"
+        placeholder="Enter your Name"
+        class="p-2 font-light"
+        required
       />
       <base-input
         v-model="newReview.comment"
         label="Comment"
         placeholder="Enter your comment"
-        class="p-2"
+        class="p-2 font-light"
+        required
       />
       <base-input
         type="number"
         min="1"
         max="5"
-        v-model="newReview.rating"
+        v-model.number="newReview.rating"
         label="Your rating score?"
         placeholder="Enter your rating"
-        class="p-2"
+        class="p-2 font-light"
+        required
       />
       <button
         type="submit"

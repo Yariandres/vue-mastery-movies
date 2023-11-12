@@ -5,7 +5,7 @@ defineProps<{
 }>();
 </script>
 <template>
-  <label v-if="label">{{ label }}</label>
+  <label v-if="label" class="font-medium">{{ label }}</label>
   <input
     v-bind="$attrs"
     :value="modelValue"

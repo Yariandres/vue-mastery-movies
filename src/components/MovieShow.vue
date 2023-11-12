@@ -1,45 +1,16 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { onBeforeMount } from 'vue';
 import BaseInput from './BaseInput.vue';
 import BaseSelect from './BaseSelect.vue';
 import MovieCard from './MovieCard.vue';
 import dataSource from '../dataSource.json';
+import { useStorage } from '@vueuse/core';
+import useMovieFilter from '../composables/useMovieFilter';
 
-interface Reviews {
-  id: number;
-  username: string;
-  rating: number;
-  comment: string;
-}
+const { movies, search, genres, filteredMovies } = useMovieFilter();
 
-export interface Movie {
-  id: number;
-  title: string;
-  release_year: number;
-  genre: string;
-  rating_score: number;
-  reviews: Reviews[];
-}
-
-const movies = ref<Movie[]>(dataSource.movies);
-const search = ref<string>('');
-const genres = ref<string>('');
-
-const filteredMovies = computed(() => {
-  if (search.value !== '') {
-    return movies.value.filter((movie) => {
-      return (
-        movie.title.toLowerCase().includes(search.value.toLowerCase()) ||
-        movie.release_year.toString() === search.value
-      );
-    });
-  } else if (genres.value !== '') {
-    return movies.value.filter((movie) => {
-      return movie.genre.toLowerCase().includes(genres.value.toLowerCase());
-    });
-  } else {
-    return movies.value;
-  }
+onBeforeMount(() => {
+  useStorage('movies', dataSource.movies);
 });
 </script>
 

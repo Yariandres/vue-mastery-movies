@@ -5,7 +5,7 @@
       "title": "The Shawshank Redemption",
       "release_year": 1994,
       "genre": "Drama",
-      "rating_score": 6,
+      "rating_score": 5,
       "reviews": [
         {
           "id": 1,
@@ -26,7 +26,7 @@
       "title": "The Godfather",
       "release_year": 1972,
       "genre": "Crime",
-      "rating_score": 6,
+      "rating_score": 3,
       "reviews": [
         {
           "id": 1,
@@ -39,6 +39,69 @@
           "username": "Peter",
           "rating": 10,
           "comment": "A masterpiece."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "The Dark Knight",
+      "release_year": 2008,
+      "genre": "Action",
+      "rating_score": 4,
+      "reviews": [
+        {
+          "id": 1,
+          "username": "Sarah",
+          "rating": 9,
+          "comment": "Heath Ledger's performance is amazing!"
+        },
+        {
+          "id": 2,
+          "username": "Mike",
+          "rating": 8,
+          "comment": "Great superhero movie."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "The Lord of the Rings: The Fellowship of the Ring",
+      "release_year": 2001,
+      "genre": "Fantasy",
+      "rating_score": 5,
+      "reviews": [
+        {
+          "id": 1,
+          "username": "Tom",
+          "rating": 10,
+          "comment": "A masterpiece."
+        },
+        {
+          "id": 2,
+          "username": "Lena",
+          "rating": 9,
+          "comment": "Great adaptation of the book."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Forrest Gump",
+      "release_year": 1994,
+      "genre": "Drama",
+      "rating_score": 4,
+      "reviews": [
+        {
+          "id": 1,
+          "username": "Jack",
+          "rating": 8,
+          "comment": "Great movie."
+        },
+        {
+          "id": 2,
+          "username": "Emma",
+          "rating": 9,
+          "comment": "Tom Hanks is amazing!"
         }
       ]
     }
