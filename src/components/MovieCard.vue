@@ -67,9 +67,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="bg-white font-bold shadow-sm p-8 rounded-lg flex flex-col gap-3 min-w-max"
-  >
+  <div class="bg-white shadow-sm p-8 rounded-lg flex flex-col gap-3">
     <div class="flex justify-end">
       <svg
         v-if="!isFavourite"
@@ -131,7 +129,7 @@ onMounted(() => {
       </div>
       <hr />
     </div>
-    <!-- edit input field when checked displys form -->
+
     <div class="flex justify-end">
       <div class="flex items-center">
         <input

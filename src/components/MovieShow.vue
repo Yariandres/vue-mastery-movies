@@ -3,6 +3,8 @@ import { onBeforeMount } from 'vue';
 import BaseInput from './BaseInput.vue';
 import BaseSelect from './BaseSelect.vue';
 import MovieCard from './MovieCard.vue';
+import FavouriteMoviesCard from './FavouriteMoviesCard.vue';
+import MoviesSuggestionCard from './MoviesSuggestionCard.vue';
 import dataSource from '../dataSource.json';
 import { useStorage } from '@vueuse/core';
 import useMovieFilter from '../composables/useMovieFilter';
@@ -15,7 +17,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class="px-8 md:px-40 my-16">
+  <div class="px-8 md:px-30 my-16">
     <h1 class="text-3xl font-bold mb-8 text-center">Movies</h1>
 
     <div class="flex flex-col gap-6 bg-slate-100 px-8 py-12 rounded-lg">
@@ -30,13 +32,22 @@ onBeforeMount(() => {
       </div>
 
       <div
-        class="rounded-xl grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2"
+        class="flex flex-col-reverse md:flex-row md:flex-reverse gap-3 justify-between"
       >
-        <movie-card
-          v-for="movie in filteredMovies"
-          :key="movie.title"
-          :movie="movie"
-        />
+        <div
+          class="rounded-xl grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2"
+        >
+          <movie-card
+            v-for="movie in filteredMovies"
+            :key="movie.title"
+            :movie="movie"
+          />
+        </div>
+
+        <div class="rounded-xl flex flex-col gap-6">
+          <favourite-movies-card />
+          <movies-suggestion-card />
+        </div>
       </div>
 
       <div v-if="movies.length === 0" class="text-center">
