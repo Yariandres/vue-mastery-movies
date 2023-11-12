@@ -1,44 +1,160 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import baseInput from './BaseInput.vue';
 import type { Movie } from './MovieShow.vue';
 import dataSource from '../dataSource.json';
+import { useStorage } from '@vueuse/core';
+
+interface Review {
+  id?: number;
+  username: string;
+  comment: string;
+  rating: string;
+}
 
 const props = defineProps<{
   movie: Movie;
 }>();
 
-const rating = ref<number>(props.movie.rating);
+const checked = ref<boolean>(false);
+const myList = ref(useStorage('myList', [] as Movie[]));
+const isFavourite = ref<boolean>();
 
-const rateMovie = () => {
-  const movies = dataSource.movies;
-  const movieIndex = movies.findIndex((movie) => movie.id === props.movie.id);
+const newReview = ref<Review>({
+  id: 1, //todo: match it to the user id
+  username: '',
+  comment: '',
+  rating: '',
+});
 
-  movies[movieIndex].rating = rating.value;
+const isInMyList = () => {
+  const isFav = myList.value.some((movie) => movie.id === props.movie.id);
+  if (isFav) {
+    isFavourite.value = true;
+  } else if (!isFav) {
+    isFavourite.value = false;
+  }
 };
+
+const addToMyList = () => {
+  myList.value.push(props.movie);
+  useStorage('myList', myList.value);
+  isInMyList();
+};
+
+const removeFromMyList = () => {
+  myList.value = myList.value.filter((movie) => movie.id !== props.movie.id);
+  useStorage('myList', myList.value);
+  isInMyList();
+};
+
+onMounted(() => {
+  isInMyList();
+});
 </script>
 
 <template>
   <div
     class="bg-white font-bold shadow-sm p-8 rounded-lg flex flex-col gap-3 min-w-max"
   >
-    <h2 class="text-xl text-center">{{ movie.title }}</h2>
-    <p class="text-gray-500">Year: {{ movie.releaseYear }}</p>
-    <p class="text-gray-500">Genre: {{ movie.genre }}</p>
-    <p class="text-gray-500">Rating: {{ movie.rating }}</p>
+    <div class="flex justify-end">
+      <svg
+        v-if="!isFavourite"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-7 w-7 text-green-600 cursor-pointer"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        @click="addToMyList"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+        />
+      </svg>
+      <!-- remove svg -->
+      <svg
+        v-if="isFavourite"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 text-red-900 hover:text-yellow-600 cursor-pointer"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        @click="removeFromMyList"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </div>
 
-    <form class="flex flex-col gap-2" @:submit.prevent="rateMovie">
+    <h2 class="text-xl text-center">{{ movie.title }}</h2>
+    <p class="font-medium">
+      Year: <span class="font-light">{{ movie.release_year }}</span>
+    </p>
+    <p class="font-medium">
+      Genre: <span class="font-light">{{ movie.genre }}</span>
+    </p>
+    <p class="font-medium">
+      Rating Score: <span class="font-light">{{ movie.rating_score }}</span>
+    </p>
+    <hr />
+    <h2 class="text-xl text-center">Reviews</h2>
+
+    <div v-for="review in movie.reviews" :key="review.id">
+      <div class="flex justify-between">
+        <div>
+          <p class="font-medium">{{ review.username }}:</p>
+          <p class="font-light">"{{ review.comment }}"</p>
+        </div>
+        <p class="font-medium">
+          Reted: <span class="font-light">{{ review.rating }}</span>
+        </p>
+      </div>
+      <hr />
+    </div>
+    <!-- edit input field when checked displys form -->
+    <div class="flex justify-end">
+      <div class="flex items-center">
+        <input
+          type="checkbox"
+          class="form-checkbox h-5 w-5 text-blue-600"
+          v-model="checked"
+        />
+        <label class="ml-2 text-gray-700">Add Review</label>
+      </div>
+    </div>
+
+    <form v-if="checked" class="flex flex-col gap-2">
       <base-input
-        :label="'Rate it from 1 to 5:'"
+        v-model="newReview.username"
+        label="Username"
+        placeholder="Enter your username"
+        class="p-2"
+      />
+      <base-input
+        v-model="newReview.comment"
+        label="Comment"
+        placeholder="Enter your comment"
+        class="p-2"
+      />
+      <base-input
         type="number"
-        v-model.number="rating"
         min="1"
         max="5"
-        class="border border-gray-300 rounded-md p-2 text-center"
+        v-model="newReview.rating"
+        label="Your rating score?"
+        placeholder="Enter your rating"
+        class="p-2"
       />
       <button
         type="submit"
-        class="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Submit
       </button>

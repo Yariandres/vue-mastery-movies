@@ -5,12 +5,20 @@ import BaseSelect from './BaseSelect.vue';
 import MovieCard from './MovieCard.vue';
 import dataSource from '../dataSource.json';
 
+interface Reviews {
+  id: number;
+  username: string;
+  rating: number;
+  comment: string;
+}
+
 export interface Movie {
   id: number;
   title: string;
-  releaseYear: number;
+  release_year: number;
   genre: string;
-  rating: number;
+  rating_score: number;
+  reviews: Reviews[];
 }
 
 const movies = ref<Movie[]>(dataSource.movies);
@@ -22,7 +30,7 @@ const filteredMovies = computed(() => {
     return movies.value.filter((movie) => {
       return (
         movie.title.toLowerCase().includes(search.value.toLowerCase()) ||
-        movie.releaseYear.toString() === search.value
+        movie.release_year.toString() === search.value
       );
     });
   } else if (genres.value !== '') {
@@ -51,17 +59,16 @@ const filteredMovies = computed(() => {
       </div>
 
       <div
-        class="rounded-xl grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+        class="rounded-xl grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2"
       >
         <movie-card
           v-for="movie in filteredMovies"
           :key="movie.title"
-          :filtered-movies="filteredMovies"
           :movie="movie"
         />
       </div>
 
-      <div v-if="filteredMovies.length === 0" class="text-center">
+      <div v-if="movies.length === 0" class="text-center">
         <p class="text-xl">
           No movies found for <span class="font-bold">{{ genres }}</span>
         </p>
