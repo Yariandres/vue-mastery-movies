@@ -5,7 +5,7 @@ This is a simple movie rating application built with Vue.js and Tailwind CSS.
 ## Features
 
 - Explore Movies: Browse through a list of movies and filter them by genre or search term.
-- Rate Movies: Give movies a rating on a 1-5 star scale.
+- Rate Movies: Give movies a rating on a 1-5 star scale which returns a 1 out 10 score.
 - Review Movies: Write reviews for movies and see them displayed alongside the average rating.
 - Custom Movie Lists: Create and save custom movie lists, such as "My Favourite Movies"
 - Local Storage: All your ratings, reviews, and custom lists are saved to local storage, so you can see them when you return to the site.
